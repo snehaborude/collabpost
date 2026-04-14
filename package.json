@@ -1,5 +1,5 @@
 {
-  "name": "miniproject",
+  "name": "collabpost",
   "version": "1.0.0",
   "description": "",
   "license": "ISC",
@@ -7,12 +7,12 @@
   "type": "commonjs",
   "main": "app.js",
   "scripts": {
-    "start":" node app.js"
+    "start": " node app.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
-    "ejs": "^3.1.10",
+    "cors": "^2.8.6",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.1.2"

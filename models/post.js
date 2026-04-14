@@ -1,20 +1,24 @@
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://127.0.0.1:27017/miniproject")
-  .then(() => console.log("MongoDB connected (user model)"))
-  .catch(err => console.error(err));
-
-const postSchema =  mongoose.Schema({
-  user:{type:mongoose.Schema.Types.ObjectId,
+const postSchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  title: { type: String, required: true },
+  category: { 
+    type: String, 
+    enum: ['academic', 'coding', 'experiences'], 
+    default: 'academic' 
   },
-  date:{
-    type:Date,
-    default:Date.noe
-  },
-  content:String,
-  likes:[{
-    type:mongoose.Schema.Types.ObjectId,ref:"user"
+  isPinned: { type: Boolean, default: false },
+  content: { type: String, required: true },
+  url: { type: String, default: "" },
+  tags: [String],
+  date: { type: Date, default: Date.now },
+  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  comments: [{
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    text: String,
+    date: { type: Date, default: Date.now }
   }]
-});
+}, { timestamps: true });
 
-module.exports = mongoose.model("post", postSchema);
+module.exports = mongoose.model("Post", postSchema);
