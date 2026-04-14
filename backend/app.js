@@ -15,17 +15,17 @@ const postModel = require("./models/post");
 
 // ================== CONFIG ==================
 const JWT_SECRET = "secretkey";
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 // ================== DB CONNECTION ==================
 mongoose
-  .connect("mongodb://127.0.0.1:27017/miniproject")
+  .connect(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/miniproject")
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
 
 // ================== MIDDLEWARE ==================
 app.use(cors({
-  origin: true,
+  origin: process.env.FRONTEND_URL || true,
   credentials: true
 }));
 app.use(express.json());
@@ -272,6 +272,10 @@ app.post("/api/posts/:id/comment", isLoggedIn, async (req, res) => {
 });
 
 // ================== SERVER ==================
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+module.exports = app;

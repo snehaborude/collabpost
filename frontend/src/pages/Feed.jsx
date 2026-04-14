@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import API_URL from '../api';
 import { Search, Send, ThumbsUp, MessageSquare, Bookmark, Link as LinkIcon, ExternalLink, BookmarkCheck, Pin } from 'lucide-react';
 
 export default function Feed() {
@@ -15,7 +16,7 @@ export default function Feed() {
 
   const fetchUser = async () => {
     try {
-      const res = await axios.get('http://localhost:3001/api/auth/me', { withCredentials: true });
+      const res = await axios.get(`${API_URL}/api/auth/me`, { withCredentials: true });
       setUser(res.data.user);
     } catch (err) {
       console.error(err);
@@ -24,7 +25,7 @@ export default function Feed() {
 
   const fetchPosts = async () => {
     try {
-      const res = await axios.get(`http://localhost:3001/api/posts?category=${category}&search=${search}`);
+      const res = await axios.get(`${API_URL}/api/posts?category=${category}&search=${search}`);
       setPosts(res.data.posts);
     } catch (err) {
       console.error(err);
@@ -39,7 +40,7 @@ export default function Feed() {
   const handlePostSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3001/api/posts', 
+      await axios.post(`${API_URL}/api/posts`, 
         { title: newTitle, content: newContent, category: newCategory, url: newUrl },
         { withCredentials: true }
       );
@@ -54,7 +55,7 @@ export default function Feed() {
 
   const handleLike = async (postId) => {
     try {
-      await axios.post(`http://localhost:3001/api/posts/${postId}/like`, {}, { withCredentials: true });
+      await axios.post(`${API_URL}/api/posts/${postId}/like`, {}, { withCredentials: true });
       fetchPosts();
     } catch (err) {
       console.error(err);
@@ -63,7 +64,7 @@ export default function Feed() {
 
   const handleSave = async (postId) => {
     try {
-      await axios.post(`http://localhost:3001/api/posts/${postId}/save`, {}, { withCredentials: true });
+      await axios.post(`${API_URL}/api/posts/${postId}/save`, {}, { withCredentials: true });
       fetchUser();
       fetchPosts();
     } catch (err) {
@@ -74,7 +75,7 @@ export default function Feed() {
   const handleComment = async (postId, text) => {
     if (!text.trim()) return;
     try {
-      await axios.post(`http://localhost:3001/api/posts/${postId}/comment`, { text }, { withCredentials: true });
+      await axios.post(`${API_URL}/api/posts/${postId}/comment`, { text }, { withCredentials: true });
       fetchPosts();
     } catch (err) {
       console.error(err);

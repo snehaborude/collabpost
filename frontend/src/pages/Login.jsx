@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import API_URL from '../api';
 import { BookOpen, ShieldCheck } from 'lucide-react';
 
 export default function Login() {
@@ -12,7 +13,7 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:3001/api/auth/login', { username, password }, { withCredentials: true });
+      const res = await axios.post(`${API_URL}/api/auth/login`, { username, password }, { withCredentials: true });
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user', JSON.stringify(res.data.user));
       navigate('/feed');

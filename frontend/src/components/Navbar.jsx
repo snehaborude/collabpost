@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { LogOut, BookOpen, User } from 'lucide-react';
 import axios from 'axios';
+import API_URL from '../api';
+import { LogOut, BookOpen, User } from 'lucide-react';
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -8,7 +9,7 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     try {
-      await axios.post('http://localhost:3001/api/auth/logout', {}, { withCredentials: true });
+      await axios.post(`${API_URL}/api/auth/logout`, {}, { withCredentials: true });
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       navigate('/');

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import API_URL from '../api';
 import { UserPlus, Sparkles } from 'lucide-react';
 
 export default function Register() {
@@ -17,7 +18,7 @@ export default function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:3001/api/auth/register', formData, { withCredentials: true });
+      const res = await axios.post(`${API_URL}/api/auth/register`, formData, { withCredentials: true });
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user', JSON.stringify(res.data.user));
       navigate('/feed');

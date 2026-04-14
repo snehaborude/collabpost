@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import API_URL from '../api';
 import { User, Mail, Book, Trash2, Bookmark, LayoutGrid, Award, Pin, PinOff } from 'lucide-react';
 
 export default function Profile() {
@@ -8,7 +9,7 @@ export default function Profile() {
 
   const fetchProfile = async () => {
     try {
-      const res = await axios.get('http://localhost:3001/api/auth/me', { withCredentials: true });
+      const res = await axios.get(`${API_URL}/api/auth/me`, { withCredentials: true });
       setProfile(res.data.user);
     } catch (err) {
       console.error(err);
@@ -22,7 +23,7 @@ export default function Profile() {
   const handleDeletePost = async (postId) => {
     if(!window.confirm("Are you sure you want to delete this post?")) return;
     try {
-      const res = await axios.delete(`http://localhost:3001/api/posts/${postId}`, { withCredentials: true });
+      const res = await axios.delete(`${API_URL}/api/posts/${postId}`, { withCredentials: true });
       alert(res.data.message);
       fetchProfile();
     } catch (err) {
@@ -32,7 +33,7 @@ export default function Profile() {
 
   const handlePinPost = async (postId) => {
     try {
-      await axios.post(`http://localhost:3001/api/posts/${postId}/pin`, {}, { withCredentials: true });
+      await axios.post(`${API_URL}/api/posts/${postId}/pin`, {}, { withCredentials: true });
       fetchProfile();
     } catch (err) {
       console.error(err);
